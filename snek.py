@@ -51,7 +51,6 @@ class Snek:
             for dim in self.dims:
                 if dim.d_pos == new_dim_pos:
                     self.curr_dim = dim
-        # print(self.curr_dim.d_pos)
         
         new_head = head.move(offset)
         if new_head.x < 0:
@@ -82,7 +81,6 @@ class Snek:
                 for dim in self.dims:
                     if dim.d_pos == new_dim_pos:
                         self.curr_dim = dim
-                        print("test")
                 new_head.y = self.curr_dim.height - self.curr_dim.px_size
             else:
                 self.die()
@@ -123,7 +121,7 @@ class Snek:
                     return True
 
     def add_segment(self):
-        self.segments.append([pygame.Rect(0, 0, self.px_size, self.px_size), self.curr_dim])
+        self.segments.append([pygame.Rect(-100, -100, self.px_size, self.px_size), self.curr_dim])
 
     def draw(self, screen):
         for segment in self.segments:

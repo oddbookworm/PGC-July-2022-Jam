@@ -1,15 +1,23 @@
 import pygame
 import asyncio
+import sys
+import os
 from random import randint, choice
 
 from dim import Dim
 from snek import Snek
 from gameover import GameOver
 
+def get_path(filename):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, filename)
+    else:
+        return filename
+
 nuggets = []
 
 def load_easter():
-    surf = pygame.image.load("pygame_tiny.png").convert_alpha()
+    surf = pygame.image.load(get_path("pygame_tiny.png")).convert_alpha()
     return surf
 
 def spawn_nugget(dim: Dim):
