@@ -60,7 +60,7 @@ async def main():
         Dim("gray", WIDTH, HEIGHT, pixel_size, (1, 1, 1)),
     ]
 
-    Player = Snek("red", pixel_size, (256, 256, Dimensions[0]), 5, Dimensions)
+    Player = Snek("red", pixel_size, (256, 256, Dimensions[0]), 10, Dimensions)
 
     direction1 = "right"
     direction2 = None
@@ -114,7 +114,7 @@ async def main():
             game_over.draw(screen, len(Player.segments))
 
         pygame.display.flip()
-        clock.tick(10)
+        clock.tick(155)
         await asyncio.sleep(0)
 
 
