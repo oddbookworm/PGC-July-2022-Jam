@@ -3,14 +3,15 @@ from typing import Tuple, List
 
 from dim import Dim
 
+
 class Snek:
     def __init__(
-        self, 
-        color: str, 
-        px_size: int, 
-        pos: Tuple[int, int, Dim], 
+        self,
+        color: str,
+        px_size: int,
+        pos: Tuple[int, int, Dim],
         length: int,
-        dim_list: List[Dim]
+        dim_list: List[Dim],
     ):
         self.color = color
         self.px_size = px_size
@@ -21,11 +22,13 @@ class Snek:
         self.dead = False
 
         offset = (-px_size, 0)
-        
+
         self.segments = []
         for i in range(self.length):
             position = (self.pos[0] + offset[0] * i, self.pos[1] + offset[1] * i)
-            self.segments.append([pygame.Rect(*position, px_size, px_size), self.pos[2]])
+            self.segments.append(
+                [pygame.Rect(*position, px_size, px_size), self.pos[2]]
+            )
 
     def move(self, direction1, direction2):
         new_segments = []
@@ -51,7 +54,7 @@ class Snek:
             for dim in self.dims:
                 if dim.d_pos == new_dim_pos:
                     self.curr_dim = dim
-        
+
         new_head = head.move(offset)
         if new_head.x < 0:
             if self.curr_dim.d_pos[0]:
@@ -97,7 +100,6 @@ class Snek:
                 self.die()
                 return
 
-
         new_segments.append([new_head, self.curr_dim])
 
         for i, segment in enumerate(self.segments):
@@ -107,8 +109,10 @@ class Snek:
             new_x = self.segments[i - 1][0].x
             new_y = self.segments[i - 1][0].y
             new_dim = self.segments[i - 1][1]
-            
-            new_segments.append([pygame.Rect(new_x, new_y, self.px_size, self.px_size), new_dim])
+
+            new_segments.append(
+                [pygame.Rect(new_x, new_y, self.px_size, self.px_size), new_dim]
+            )
 
         self.segments = new_segments
         self.self_collison()
@@ -121,7 +125,9 @@ class Snek:
                     return True
 
     def add_segment(self):
-        self.segments.append([pygame.Rect(-100, -100, self.px_size, self.px_size), self.curr_dim])
+        self.segments.append(
+            [pygame.Rect(-100, -100, self.px_size, self.px_size), self.curr_dim]
+        )
 
     def draw(self, screen):
         for segment in self.segments:

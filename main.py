@@ -8,25 +8,30 @@ from dim import Dim
 from snek import Snek
 from gameover import GameOver
 
+
 def get_path(filename):
     if hasattr(sys, "_MEIPASS"):
         return os.path.join(sys._MEIPASS, filename)
     else:
         return filename
 
+
 nuggets = []
+
 
 def load_easter():
     surf = pygame.image.load(get_path("pygame_tiny.png")).convert_alpha()
     return surf
 
+
 def spawn_nugget(dim: Dim):
     pos = (
         randint(0, dim.width // dim.px_size) * dim.px_size,
-        randint(0, dim.height // dim.px_size) * dim.px_size
+        randint(0, dim.height // dim.px_size) * dim.px_size,
     )
     rect = pygame.Rect(*pos, dim.px_size, dim.px_size)
     nuggets.append([rect, dim])
+
 
 def draw_nuggets(screen, player):
     for nugget in nuggets:
@@ -43,7 +48,7 @@ async def main():
     clock = pygame.time.Clock()
 
     game_over = GameOver(WIDTH, HEIGHT)
-    
+
     Dimensions = [
         Dim("white", WIDTH, HEIGHT, pixel_size, (0, 0, 0)),
         Dim("green", WIDTH, HEIGHT, pixel_size, (1, 0, 0)),
@@ -52,7 +57,7 @@ async def main():
         Dim("blue", WIDTH, HEIGHT, pixel_size, (0, 0, 1)),
         Dim("purple", WIDTH, HEIGHT, pixel_size, (1, 0, 1)),
         Dim("orange", WIDTH, HEIGHT, pixel_size, (0, 1, 1)),
-        Dim("gray", WIDTH, HEIGHT, pixel_size, (1, 1, 1))
+        Dim("gray", WIDTH, HEIGHT, pixel_size, (1, 1, 1)),
     ]
 
     Player = Snek("red", pixel_size, (256, 256, Dimensions[0]), 5, Dimensions)
@@ -69,7 +74,7 @@ async def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     direction1 = "up"
@@ -95,11 +100,11 @@ async def main():
             if Player.easter_egg() and not loaded:
                 easter = load_easter()
                 loaded = True
-            
+
             screen.fill("black")
             curr_dim.draw(screen)
             if loaded:
-                easter_rect = easter.get_rect(center = curr_dim.rect.center)
+                easter_rect = easter.get_rect(center=curr_dim.rect.center)
                 screen.blit(easter, easter_rect)
             draw_nuggets(screen, Player)
             Player.draw(screen)
@@ -112,8 +117,10 @@ async def main():
         clock.tick(10)
         await asyncio.sleep(0)
 
+
 def run():
     asyncio.run(main())
+
 
 if __name__ == "__main__":
     run()
