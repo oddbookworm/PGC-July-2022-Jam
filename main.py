@@ -1,4 +1,3 @@
-from distutils.spawn import spawn
 import pygame
 import asyncio
 from random import randint, choice

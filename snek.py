@@ -1,5 +1,4 @@
 import pygame
-from random import choice
 from typing import Tuple, List
 
 from dim import Dim
