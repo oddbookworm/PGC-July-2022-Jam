@@ -114,7 +114,7 @@ async def main():
             game_over.draw(screen, len(Player.segments))
 
         pygame.display.flip()
-        clock.tick(155)
+        clock.tick(15)
         await asyncio.sleep(0)
 
 
