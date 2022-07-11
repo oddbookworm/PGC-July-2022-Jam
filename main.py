@@ -1,42 +1,106 @@
+from distutils.spawn import spawn
 import pygame
 import asyncio
+from random import randint, choice
 
 from dim import Dim
 from snek import Snek
+from gameover import GameOver
+
+nuggets = []
+
+def load_easter():
+    surf = pygame.image.load("pygame_tiny.png").convert_alpha()
+    return surf
+
+def spawn_nugget(dim: Dim):
+    pos = (
+        randint(0, dim.width // dim.px_size) * dim.px_size,
+        randint(0, dim.height // dim.px_size) * dim.px_size
+    )
+    rect = pygame.Rect(*pos, dim.px_size, dim.px_size)
+    nuggets.append([rect, dim])
+
+def draw_nuggets(screen, player):
+    for nugget in nuggets:
+        if nugget[1] == player.curr_dim:
+            pygame.draw.rect(screen, "red", nugget[0])
+
 
 async def main():
     WIDTH, HEIGHT = (512, 512)
     pixel_size = 8
+    number_nuggets = 16
 
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
+
+    game_over = GameOver(WIDTH, HEIGHT)
     
-    Dimension1 = Dim("white", WIDTH, HEIGHT, pixel_size, (0, 0, 0))
+    Dimensions = [
+        Dim("white", WIDTH, HEIGHT, pixel_size, (0, 0, 0)),
+        Dim("green", WIDTH, HEIGHT, pixel_size, (1, 0, 0)),
+        Dim("black", WIDTH, HEIGHT, pixel_size, (0, 1, 0)),
+        Dim("yellow", WIDTH, HEIGHT, pixel_size, (1, 1, 0)),
+        Dim("blue", WIDTH, HEIGHT, pixel_size, (0, 0, 1)),
+        Dim("purple", WIDTH, HEIGHT, pixel_size, (1, 0, 1)),
+        Dim("orange", WIDTH, HEIGHT, pixel_size, (0, 1, 1)),
+        Dim("gray", WIDTH, HEIGHT, pixel_size, (1, 1, 1))
+    ]
 
-    Player = Snek("red", pixel_size, (256, 256), 20)
+    Player = Snek("red", pixel_size, (256, 256, Dimensions[0]), 5, Dimensions)
 
-    direction = "right"
+    direction1 = "right"
+    direction2 = None
 
+    loaded = False
     while True:
+        if len(nuggets) < number_nuggets:
+            spawn_nugget(choice(Dimensions))
+
+        direction2 = None
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
-                    direction = "up"
+                    direction1 = "up"
                 elif event.key == pygame.K_d:
-                    direction = "right"
+                    direction1 = "right"
                 elif event.key == pygame.K_s:
-                    direction = "down"
+                    direction1 = "down"
                 elif event.key == pygame.K_a:
-                    direction = "left"
+                    direction1 = "left"
+                elif event.key == pygame.K_e:
+                    direction2 = "out"
+                elif event.key == pygame.K_q:
+                    direction2 = "in"
 
-        Player.move(direction)
+        if not Player.dead:
+            Player.move(direction1, direction2)
+            hit_nuggets = Player.nugget_check(nuggets)
+            for nugget in hit_nuggets:
+                nuggets.remove(nugget)
+                Player.add_segment()
+            curr_dim = Player.curr_dim
 
-        screen.fill("black")
-        Dimension1.draw(screen)
-        Player.draw(screen)
+            if Player.easter_egg() and not loaded:
+                easter = load_easter()
+                loaded = True
+            
+            screen.fill("black")
+            curr_dim.draw(screen)
+            if loaded:
+                easter_rect = easter.get_rect(center = curr_dim.rect.center)
+                screen.blit(easter, easter_rect)
+            draw_nuggets(screen, Player)
+            Player.draw(screen)
+
+        else:
+            screen.fill("black")
+            game_over.draw(screen, len(Player.segments))
+
         pygame.display.flip()
         clock.tick(10)
         await asyncio.sleep(0)
