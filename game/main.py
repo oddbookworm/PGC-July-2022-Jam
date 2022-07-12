@@ -43,6 +43,13 @@ def draw_nuggets(screen, player):
         if nugget[1] == player.curr_dim:
             pygame.draw.rect(screen, "yellow", nugget[0])
 
+def set_up(pixel_size, Dimensions):
+    Player = Snek("yellow", pixel_size, (256, 256, Dimensions[0]), 10, Dimensions)
+    direction1 = "right"
+    direction2 = None
+    loaded = False
+
+    return (Player, direction1, direction2, loaded)
 
 async def main():
     WIDTH, HEIGHT = (512, 512)
@@ -65,12 +72,16 @@ async def main():
         Dim("blue", WIDTH, HEIGHT, pixel_size, (1, 1, 1)),
     ]
 
-    Player = Snek("yellow", pixel_size, (256, 256, Dimensions[0]), 10, Dimensions)
+    # Player = Snek("yellow", pixel_size, (256, 256, Dimensions[0]), 10, Dimensions)
 
-    direction1 = "right"
-    direction2 = None
+    # direction1 = "right"
+    # direction2 = None
 
-    loaded = False
+    # loaded = False
+
+    Player, direction1, direction2, loaded = set_up(pixel_size, Dimensions)
+
+    restart = False
     while True:
         old_direction = direction1
         if len(nuggets) < number_nuggets:
@@ -99,6 +110,9 @@ async def main():
                 elif event.key == pygame.K_q:
                     direction2 = "in"
 
+                if Player.dead and event.key == pygame.K_r:
+                    restart = True
+
         if not Player.dead:
             Player.move(direction1, direction2)
             hit_nuggets = Player.nugget_check(nuggets)
@@ -125,6 +139,11 @@ async def main():
             game_over.draw(screen, len(Player.segments))
 
         pygame.display.flip()
+
+        if restart:
+            Player, direction1, direction2, loaded = set_up(pixel_size, Dimensions)
+            restart = False
+
         clock.tick(15)
         await asyncio.sleep(0)
 
