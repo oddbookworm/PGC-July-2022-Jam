@@ -5,9 +5,9 @@ import os
 from random import randint, choice
 
 try:
-    from game.dim import Dim
-    from game.snek import Snek
-    from game.gameover import GameOver
+    from .dim import Dim
+    from .snek import Snek
+    from .gameover import GameOver
 except ImportError:
     from dim import Dim
     from snek import Snek
