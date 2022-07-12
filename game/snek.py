@@ -7,7 +7,6 @@ except ImportError:
     from dim import Dim
 
 
-
 class Snek:
     def __init__(
         self,
