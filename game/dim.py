@@ -36,11 +36,17 @@ class Dim:
                 self.bg, "red", (0, self.height - 2), (self.width, self.height - 2), 2
             )
 
-        font = pygame.font.SysFont("comicsans", 20)
-        number = font.render(str(self.d_pos[2]), True, "red")
+        self.font = pygame.font.SysFont("comicsans", 20)
+        number = self.font.render(f"floor: {self.d_pos[2]}", True, "red")
 
         self.bg.blit(number, number.get_rect(topleft=(5, 0)))
         self.rect = self.bg.get_rect()
 
     def draw(self, screen):
         screen.blit(self.bg, self.rect)
+
+    def draw_score(self, score, screen):
+        number = self.font.render(f"score: {score}", True, "red")
+        rect = number.get_rect()
+        rect.topright = (self.width, 0)
+        screen.blit(number, rect)

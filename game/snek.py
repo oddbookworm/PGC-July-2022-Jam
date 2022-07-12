@@ -135,7 +135,11 @@ class Snek:
     def draw(self, screen):
         for segment in self.segments:
             if segment[1] == self.curr_dim:
-                pygame.draw.rect(screen, self.color, segment[0])
+                if segment != self.segments[0]:
+                    pygame.draw.rect(screen, self.color, segment[0])
+                else:
+                    pygame.draw.rect(screen, "orange", segment[0])
+        self.curr_dim.draw_score(len(self.segments), screen)
 
     def die(self):
         self.dead = True
