@@ -14,3 +14,5 @@ Option 1) Run game/main.py through your python interpreter (Probably compatible 
 Option 2) From the root directory, run `python -m game`<br>
 Option 3) Run the executable provided or create it yourself<br>(pyinstaller command on windows is `pyinstaller --onefile --add-data "./game/*;." ./game/main.py`)<br>
 Option 4) From the root directory, run `pygbag game` and go to localhost:8000
+
+Discord ID: @Andrew Coffey#9386
