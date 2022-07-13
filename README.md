@@ -8,6 +8,7 @@ Note that the number of rooms is 8 total in a 2x2x2 cube. You start off on the b
 Press "R" at the Game Over screen to restart.
 
 Credit for the pygame snake image goes to @Sjmarf#1894 on Discord
+
 Credit for the music goes to https://www.fakemusicgenerator.com/
 
 To run:
