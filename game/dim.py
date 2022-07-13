@@ -23,21 +23,21 @@ class Dim:
         self.bg.fill(self.color)
 
         if not self.d_pos[0]:
-            pygame.draw.line(self.bg, "red", (0, 0), (0, self.height), 2)
+            pygame.draw.line(self.bg, "red", (0, 0), (0, self.height), 3)
         else:
             pygame.draw.line(
-                self.bg, "red", (self.width - 2, 0), (self.width - 2, self.height), 2
+                self.bg, "red", (self.width - 2, 0), (self.width - 2, self.height), 3
             )
 
         if not self.d_pos[1]:
-            pygame.draw.line(self.bg, "red", (0, 0), (self.width, 0), 2)
+            pygame.draw.line(self.bg, "red", (0, 2), (self.width, 2), 3)
         else:
             pygame.draw.line(
-                self.bg, "red", (0, self.height - 2), (self.width, self.height - 2), 2
+                self.bg, "red", (0, self.height - 2), (self.width, self.height - 2), 3
             )
 
         self.font = pygame.font.SysFont("comicsans", 20)
-        number = self.font.render(f"floor: {self.d_pos[2]}", True, "red")
+        number = self.font.render(f"floor: {self.d_pos[2]}", True, "white")
 
         self.bg.blit(number, number.get_rect(topleft=(5, 0)))
         self.rect = self.bg.get_rect()
@@ -46,7 +46,7 @@ class Dim:
         screen.blit(self.bg, self.rect)
 
     def draw_score(self, score, screen):
-        number = self.font.render(f"score: {score}", True, "red")
+        number = self.font.render(f"score: {score}", True, "white")
         rect = number.get_rect()
         rect.topright = (self.width, 0)
         screen.blit(number, rect)
