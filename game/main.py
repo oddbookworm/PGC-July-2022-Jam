@@ -44,7 +44,7 @@ def draw_nuggets(screen, player):
             pygame.draw.rect(screen, "yellow", nugget[0])
 
 def set_up(pixel_size, Dimensions):
-    Player = Snek("yellow", pixel_size, (256, 256, Dimensions[0]), 10, Dimensions)
+    Player = Snek("yellow", pixel_size, (256, 256, Dimensions[0]),10, Dimensions)
     direction1 = "right"
     direction2 = None
     loaded = False
@@ -66,18 +66,11 @@ async def main():
         Dim("black", WIDTH, HEIGHT, pixel_size, (1, 0, 0)),
         Dim("black", WIDTH, HEIGHT, pixel_size, (0, 1, 0)),
         Dim("black", WIDTH, HEIGHT, pixel_size, (1, 1, 0)),
-        Dim("blue", WIDTH, HEIGHT, pixel_size, (0, 0, 1)),
-        Dim("blue", WIDTH, HEIGHT, pixel_size, (1, 0, 1)),
-        Dim("blue", WIDTH, HEIGHT, pixel_size, (0, 1, 1)),
-        Dim("blue", WIDTH, HEIGHT, pixel_size, (1, 1, 1)),
+        Dim("grey40", WIDTH, HEIGHT, pixel_size, (0, 0, 1)),
+        Dim("grey40", WIDTH, HEIGHT, pixel_size, (1, 0, 1)),
+        Dim("grey40", WIDTH, HEIGHT, pixel_size, (0, 1, 1)),
+        Dim("grey40", WIDTH, HEIGHT, pixel_size, (1, 1, 1)),
     ]
-
-    # Player = Snek("yellow", pixel_size, (256, 256, Dimensions[0]), 10, Dimensions)
-
-    # direction1 = "right"
-    # direction2 = None
-
-    # loaded = False
 
     Player, direction1, direction2, loaded = set_up(pixel_size, Dimensions)
 
@@ -93,16 +86,16 @@ async def main():
                 return
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
+                if event.key in [pygame.K_w, pygame.K_UP]:
                     if old_direction != "down":
                         direction1 = "up"
-                elif event.key == pygame.K_d:
+                elif event.key in [pygame.K_d, pygame.K_RIGHT]:
                     if old_direction != "left":
                         direction1 = "right"
-                elif event.key == pygame.K_s:
+                elif event.key in [pygame.K_s, pygame.K_DOWN]:
                     if old_direction != "up":
                         direction1 = "down"
-                elif event.key == pygame.K_a:
+                elif event.key in [pygame.K_a, pygame.K_LEFT]:
                     if old_direction != "right":
                         direction1 = "left"
                 elif event.key == pygame.K_e:
