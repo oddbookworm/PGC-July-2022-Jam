@@ -60,7 +60,7 @@ async def main():
     clock = pygame.time.Clock()
 
     pygame.mixer.init()
-    pygame.mixer.music.load("sound.ogg")
+    pygame.mixer.music.load(get_path("sound.ogg"))
     pygame.mixer.music.play(-1)
 
     game_over = GameOver(WIDTH, HEIGHT)
